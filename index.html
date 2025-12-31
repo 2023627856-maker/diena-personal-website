@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diena's Personal Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f5dc 0%, #f0e6d2 100%);
+            color: #5a4a42;
+            line-height: 1.7;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 25px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        .main-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #8b7355;
+            margin-bottom: 8px;
+        }
+        .sub-heading {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            color: #a8927a;
+            font-weight: 300;
+        }
+        nav {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 15px 0;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            border-radius: 12px;
+        }
+        nav ul { display: flex; justify-content: center; list-style: none; }
+        nav ul li { margin: 0 20px; }
+        nav ul li a {
+            text-decoration: none;
+            color: #8b7355;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        nav ul li a:hover { background-color: #f5f0e6; transform: translateY(-3px); }
+        .page {
+            display: none;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            animation: fadeIn 0.6s ease;
+        }
+        .active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #8b7355;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0e6d2;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: center;
+            justify-content: center;
+        }
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            color: #a8927a;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        p { margin-bottom: 20px; font-size: 16px; color: #5a4a42; }
+        ul { margin-left: 20px; margin-bottom: 20px; }
+        li { margin-bottom: 10px; }
+        
+        /* Hobby Page Layout */
+        .hobby-hero {
+            background: linear-gradient(135deg, #fff0f0 0%, #ffe8e8 100%);
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 2px solid #f8c8c8;
+            position: relative;
+            overflow: hidden;
+        }
+        .makeup-image-container {
+            width: 300px;
+            height: 200px;
+            margin: 20px auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .makeup-image-container:hover {
+            transform: scale(1.03);
+        }
+        .makeup-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .hobby-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .hobby-card {
+            background: #fcfaf7;
+            padding: 0;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid #f0e6d2;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+        .hobby-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(139, 115, 85, 0.1);
+        }
+        .hobby-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .hobby-image:hover {
+            transform: scale(1.05);
+        }
+        .hobby-content {
+            padding: 25px;
+        }
+        
+        /* Lightbox Modal */
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s ease;
+        }
+        .lightbox-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 1001;
+        }
+        .lightbox-close:hover {
+            color: #e6c9a8;
+        }
+        .lightbox-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        /* Passion Page Layout */
+        .passion-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .passion-card {
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f2ff 100%);
+            padding: 30px;
+            border-radius: 16px;
+            border: 2px solid #c8e6ff;
+            position: relative;
+            overflow: hidden;
+        }
+        .passion-card:nth-child(odd) {
+            background: linear-gradient(135deg, #f0fff0 0%, #e6ffe6 100%);
+            border: 2px solid #c8e6c8;
+        }
+        .passion-number {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 48px;
+            font-weight: bold;
+            color: rgba(139, 115, 85, 0.1);
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Weakness & Strength Page Layout */
+        .sw-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .strength-section, .weakness-section {
+            padding: 30px;
+            border-radius: 16px;
+            position: relative;
+        }
+        .strength-section {
+            background: linear-gradient(135deg, #f8fff0 0%, #f0ffe6 100%);
+            border: 2px solid #d4e6a8;
+        }
+        .weakness-section {
+            background: linear-gradient(135deg, #fff8f0 0%, #ffe8d6 100%);
+            border: 2px solid #e6c9a8;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(139, 115, 85, 0.2);
+        }
+        .strength-icon, .weakness-icon {
+            font-size: 24px;
+            padding: 10px;
+            border-radius: 50%;
+        }
+        .strength-icon {
+            background: #d4e6a8;
+            color: #5a7a42;
+        }
+        .weakness-icon {
+            background: #e6c9a8;
+            color: #8b5a42;
+        }
+        
+        /* Profile Section */
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            background: linear-gradient(135deg, #fcfaf7 0%, #f9f5f0 100%);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+        }
+        .profile-img-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            cursor: pointer;
+        }
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 8px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: transform 0.4s ease;
+        }
+        .profile-img:hover { transform: scale(1.05); }
+        .profile-intro { flex: 1; min-width: 300px; }
+        .profile-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: #8b7355;
+            margin-bottom: 10px;
+        }
+        .profile-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            color: #a8927a;
+            margin-bottom: 15px;
+        }
+        
+        /* Navigation Buttons */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        button {
+            background: linear-gradient(135deg, #e6c9a8 0%, #d4b896 100%);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: #5a4a42;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(139, 115, 85, 0.2);
+        }
+        button:hover { transform: translateY(-3px); }
+        button:disabled {
+            background: #e0d6c7;
+            color: #a89b8a;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Contact Form */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 500px;
+            margin: 30px auto;
+        }
+        .form-group { display: flex; flex-direction: column; }
+        label {
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 16px;
+            color: #8b7355;
+        }
+        input, textarea {
+            padding: 12px 15px;
+            border: 1px solid #e0d6c7;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            background-color: #fcfaf7;
+        }
+        textarea { min-height: 120px; resize: vertical; }
+        .submit-btn {
+            align-self: center;
+            background: linear-gradient(135deg, #e6c9a8 0%, #d4b896 100%);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            color: #5a4a42;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.06);
+        }
+        footer p { color: #a8927a; font-size: 14px; }
+        
+        @media (max-width: 768px) {
+            nav ul { flex-direction: column; align-items: center; gap: 10px; }
+            .profile-section { justify-content: center; text-align: center; }
+            .profile-img-container { width: 150px; height: 150px; }
+            .hobby-grid { grid-template-columns: 1fr; }
+            .passion-container { grid-template-columns: 1fr; }
+            .sw-split { grid-template-columns: 1fr; }
+            .contact-form { max-width: 100%; }
+            .makeup-image-container { width: 100%; }
+            .lightbox-content {
+                max-width: 95%;
+                max-height: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Lightbox Modal -->
+    <div id="lightboxModal" class="lightbox-modal">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightboxImage">
+        <div id="lightboxCaption" class="lightbox-caption"></div>
+    </div>
+
+    <header>
+        <div class="container">
+            <h1 class="main-heading">Diena's Personal Website</h1>
+            <p class="sub-heading">Welcome to My Personal Space ✨</p>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#" onclick="showPage('personal-info')"><i class="fas fa-user"></i> Personal Info</a></li>
+                <li><a href="#" onclick="showPage('hobby')"><i class="fas fa-heart"></i> Hobby</a></li>
+                <li><a href="#" onclick="showPage('passion')"><i class="fas fa-star"></i> Passion</a></li>
+                <li><a href="#" onclick="showPage('weakness-strength')"><i class="fas fa-chart-line"></i> Weakness & Strength</a></li>
+                <li><a href="#" onclick="showPage('contact')"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div id="personal-info" class="page active">
+            <h1><i class="fas fa-user-circle"></i> Personal Information</h1>
+            <div class="profile-section">
+                <div class="profile-img-container" onclick="openLightbox('selfie.jpg', 'Diena\'s Profile Picture')">
+                    <img src="selfie.jpg" alt="Diena's Profile Picture" class="profile-img">
+                </div>
+                <div class="profile-intro">
+                    <h2 class="profile-name">Adriana Qistina</h2>
+                    <p class="profile-title">Information Management Student</p>
+                    <p>Hello! I'm Diena, a 20-year-old student from Jitra, Kedah. Welcome to my personal website where I talk about myself ♡.</p>
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;">
+                <div style="background: #fcfaf7; padding: 30px; border-radius: 12px;">
+                    <h2><i class="fas fa-smile"></i> About Me</h2>
+                    <p>My name is Adriana Qistina bt Ahmad Mustaqim, but you can call me Diena. I'm 20 years old and I was born and raised in the beautiful town of Jitra, Kedah. I'm currently pursuing my Diploma in Information Management at UiTM Kedah while also working part-time to gain experience and support myself.</p>
+                    <p>I created this website to share a little bit about myself, my interests, and my journey. I believe that every person has a unique story to tell, and this is my way of sharing mine with the world.</p>
+                </div>
+                <div style="background: #fcfaf7; padding: 30px; border-radius: 12px;">
+                    <h2><i class="fas fa-graduation-cap"></i> Education & Background</h2>
+                    <p>I completed my secondary education at SMK Jitra before continuing my studies at UiTM Kedah. Growing up in Kedah has given me an appreciation for traditional Malaysian culture while also keeping me connected to modern developments in technology and education.</p>
+                </div>
+            </div>
+            <div class="navigation-buttons">
+                <button disabled><i class="fas fa-arrow-left"></i> Back</button>
+                <button onclick="showPage('hobby')">Next <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="hobby" class="page">
+            <h1><i class="fas fa-heart"></i> My Hobbies</h1>
+            
+            <div class="hobby-hero">
+                <h2 style="font-size: 24px; color: #8b7355;">Makeup Artistry</h2>
+                <p>My love for makeup started when I was just 5 years old. I would watch in fascination as my mother applied her makeup, captivated by the transformation. I began experimenting with her makeup collection, creating playful looks on myself and occasionally on my sisters. Over the years, this childhood curiosity grew into a genuine passion. I love how makeup allows for creative expression, enhances natural beauty, and can be a powerful form of self-confidence. It's an art form where the face becomes my canvas, and I enjoy learning new techniques and trends.</p>
+                <div class="makeup-image-container" onclick="openLightbox('makeup.jpg', 'My Makeup Collection')">
+                    <img src="makeup.jpg" alt="Makeup Artistry" class="makeup-image">
+                </div>
+            </div>
+            
+            <div class="hobby-grid">
+                <div class="hobby-card">
+                    <img src="chicken.jpg" alt="Cooking & Baking" class="hobby-image" onclick="openLightbox('chicken.jpg', 'Cooking & Baking')">
+                    <div class="hobby-content">
+                        <h2>Cooking & Baking</h2>
+                        <p>There's something therapeutic about working in the kitchen. I find joy in experimenting with ingredients, trying new recipes, and putting my own twist on traditional dishes. Cooking allows me to be creative while producing something nourishing and delicious that I can share with family and friends.</p>
+                    </div>
+                </div>
+                
+                <div class="hobby-card">
+                    <img src="shops.jpg" alt="Shopping" class="hobby-image" onclick="openLightbox('shops.jpg', 'Shopping')">
+                    <div class="hobby-content">
+                        <h2>Shopping</h2>
+                        <p>I enjoy exploring stores and discovering unique items that reflect my personal style. Shopping is more than just buying things for me, it's about finding pieces that inspire me and help me express myself creatively. Whether it's fashion, home decor, or beauty products, I love the thrill of finding something special.</p>
+                    </div>
+                </div>
+                
+                <div class="hobby-card">
+                    <img src="music.jpg" alt="Listening to Music" class="hobby-image" onclick="openLightbox('music.jpg', 'Listening to Music')">
+                    <div class="hobby-content">
+                        <h2>Listening to Music</h2>
+                        <p>Music is a constant companion in my daily life. It helps set the mood whether I'm studying, relaxing, or just going about my day. I appreciate various genres and find that different types of music resonate with different moments and emotions.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="navigation-buttons">
+                <button onclick="showPage('personal-info')"><i class="fas fa-arrow-left"></i> Back</button>
+                <button onclick="showPage('passion')">Next <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="passion" class="page">
+            <h1><i class="fas fa-star"></i> My Passions</h1>
+            
+            <div class="passion-container">
+                <div class="passion-card">
+                    <div class="passion-number">01</div>
+                    <h2><i class="fas fa-database"></i> Information Management</h2>
+                    <p>As an Information Management student, I'm deeply passionate about how data and information can be organized, stored, and retrieved efficiently to drive decision-making and innovation.</p>
+                </div>
+                
+                <div class="passion-card">
+                    <div class="passion-number">02</div>
+                    <h2><i class="fas fa-laptop-code"></i> Digital Creativity</h2>
+                    <p>I'm passionate about the intersection of technology and creativity. I enjoy exploring how digital tools can enhance creative expression and bring innovative ideas to life in the digital space.</p>
+                </div>
+                
+                <div class="passion-card">
+                    <div class="passion-number">03</div>
+                    <h2><i class="fas fa-graduation-cap"></i> Lifelong Learning</h2>
+                    <p>I strongly believe in continuous self-improvement and learning new skills. Staying curious and adaptable is key to personal and professional growth in our rapidly changing world.</p>
+                </div>
+                
+                <div class="passion-card">
+                    <div class="passion-number">04</div>
+                    <h2><i class="fas fa-hands-helping"></i> Community Involvement</h2>
+                    <p>I'm passionate about giving back to my community. I occasionally volunteer for local events and activities, believing that small contributions can make a big difference in people's lives.</p>
+                </div>
+            </div>
+            
+            <div class="navigation-buttons">
+                <button onclick="showPage('hobby')"><i class="fas fa-arrow-left"></i> Back</button>
+                <button onclick="showPage('weakness-strength')">Next <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="weakness-strength" class="page">
+            <h1><i class="fas fa-chart-line"></i> Strengths & Weaknesses</h1>
+            
+            <div class="sw-split">
+                <div class="strength-section">
+                    <div class="section-header">
+                        <div class="strength-icon"><i class="fas fa-check"></i></div>
+                        <h2>My Strengths</h2>
+                    </div>
+                    <ul>
+                        <li><strong>Adaptability:</strong> I can easily adjust to new situations and environments.</li>
+                        <li><strong>Detail-Oriented:</strong> I pay close attention to small details in my work.</li>
+                        <li><strong>Time Management:</strong> I effectively balance studies, work, and personal life.</li>
+                        <li><strong>Creative Thinking:</strong> I approach problems with innovative solutions.</li>
+                        <li><strong>Perseverance:</strong> I don't give up easily when faced with challenges.</li>
+                    </ul>
+                </div>
+                
+                <div class="weakness-section">
+                    <div class="section-header">
+                        <div class="weakness-icon"><i class="fas fa-exclamation"></i></div>
+                        <h2>Areas for Improvement</h2>
+                    </div>
+                    <ul>
+                        <li><strong>Perfectionism:</strong> Sometimes I spend too much time perfecting small details.</li>
+                        <li><strong>Public Speaking:</strong> I get nervous when presenting to large groups.</li>
+                        <li><strong>Delegation:</strong> I tend to take on too much instead of asking for help.</li>
+                        <li><strong>Overthinking:</strong> I sometimes overanalyze situations unnecessarily.</li>
+                        <li><strong>Procrastination:</strong> I occasionally delay tasks until the last minute.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="navigation-buttons">
+                <button onclick="showPage('passion')"><i class="fas fa-arrow-left"></i> Back</button>
+                <button onclick="showPage('contact')">Next <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="contact" class="page">
+            <h1><i class="fas fa-envelope"></i> Contact Information</h1>
+            
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <div style="background: #fcfaf7; padding: 30px; border-radius: 12px; margin-bottom: 30px;">
+                    <h2><i class="fas fa-comment-dots"></i> Get in Touch</h2>
+                    <p>I'd love to hear from you! Whether you have questions, want to collaborate, or just want to say hello, feel free to reach out using any of the methods below.</p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 40px 0;">
+                    <div style="background: #fcfaf7; padding: 25px; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 24px; color: #8b7355; margin-bottom: 10px;"><i class="fas fa-envelope"></i></div>
+                        <h3>Email</h3>
+                        <p>adrianaqistina@gmail.com</p>
+                    </div>
+                    <div style="background: #fcfaf7; padding: 25px; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 24px; color: #8b7355; margin-bottom: 10px;"><i class="fas fa-phone"></i></div>
+                        <h3>Phone</h3>
+                        <p>+60 12-345 6789</p>
+                    </div>
+                    <div style="background: #fcfaf7; padding: 25px; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 24px; color: #8b7355; margin-bottom: 10px;"><i class="fas fa-map-marker-alt"></i></div>
+                        <h3>Location</h3>
+                        <p>Jitra, Kedah, Malaysia</p>
+                    </div>
+                </div>
+                
+                <h2><i class="fas fa-paper-plane"></i> Send Me a Message</h2>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> Send Message</button>
+                </form>
+            </div>
+            
+            <div class="navigation-buttons">
+                <button onclick="showPage('weakness-strength')"><i class="fas fa-arrow-left"></i> Back</button>
+                <button disabled>Next <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Diena's Personal Website. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+        
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! Diena will get back to you soon.');
+            this.reset();
+        });
+        
+        // Lightbox functionality
+        const lightboxModal = document.getElementById('lightboxModal');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const lightboxCaption = document.getElementById('lightboxCaption');
+        const closeBtn = document.querySelector('.lightbox-close');
+        
+        function openLightbox(src, alt) {
+            lightboxModal.style.display = 'block';
+            lightboxImage.src = src;
+            lightboxCaption.textContent = alt;
+        }
+        
+        closeBtn.onclick = function() {
+            lightboxModal.style.display = 'none';
+        }
+        
+        lightboxModal.onclick = function(event) {
+            if (event.target === lightboxModal) {
+                lightboxModal.style.display = 'none';
+            }
+        }
+        
+        // Close lightbox with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && lightboxModal.style.display === 'block') {
+                lightboxModal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
